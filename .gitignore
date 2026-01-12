@@ -1,0 +1,29 @@
+# Data directories (contain scraped data)
+data/
+output/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+
+# Credentials (if any)
+*.env
+.env
+credentials.json

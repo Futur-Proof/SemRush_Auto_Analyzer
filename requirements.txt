@@ -1,0 +1,13 @@
+# Core dependencies
+selenium>=4.0.0
+pandas>=1.5.0
+numpy>=1.21.0
+PyYAML>=6.0
+
+# NLP dependencies (optional but recommended)
+textblob>=0.17.0
+nltk>=3.8.0
+scikit-learn>=1.0.0
+
+# Chrome WebDriver
+webdriver-manager>=4.0.0

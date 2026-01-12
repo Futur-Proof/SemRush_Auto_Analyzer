@@ -1,0 +1,64 @@
+# =============================================================================
+# SemRush Auto Analyzer Configuration
+# =============================================================================
+# Edit these variables to customize analysis for any brand/domain
+# =============================================================================
+
+# Target brand/domain to analyze
+target:
+  name: "Your Brand"
+  domain: "yourbrand.com"
+
+# Competitor domains to compare against
+competitors:
+  - domain: "competitor1.com"
+    name: "Competitor 1"
+  - domain: "competitor2.com"
+    name: "Competitor 2"
+  - domain: "competitor3.com"
+    name: "Competitor 3"
+  - domain: "competitor4.com"
+    name: "Competitor 4"
+
+# SEMRush settings
+semrush:
+  database: "us"  # us, uk, de, fr, etc.
+  search_type: "domain"  # domain, subdomain, url
+  chrome_debug_port: 9222  # Port for Chrome remote debugging
+
+# Keywords to research (for market analysis)
+market_keywords:
+  - "luxury candles"
+  - "premium candles"
+  - "designer candles"
+  - "high end candles"
+
+# Google Reviews settings (for sentiment analysis)
+google_reviews:
+  locations:
+    - "New York"
+    - "Los Angeles"
+  store_types:
+    - "store"
+    - "Nordstrom"
+    - "Neiman Marcus"
+  max_scroll_count: 15  # How many times to scroll to load more reviews
+
+# Analysis settings
+analysis:
+  sentiment_threshold: -0.1  # Below this = negative
+  min_rating_negative: 3  # Ratings <= this are considered negative
+  n_topics: 10  # Number of topics for LDA modeling
+  n_key_phrases: 20  # Number of key phrases to extract
+
+# Output settings
+output:
+  screenshots: true
+  csv_export: true
+  json_export: true
+  generate_report: true
+
+# Industry/Market category (for SEMRush Market Explorer)
+industry:
+  category: "beauty-and-cosmetics"
+  region: "us"
