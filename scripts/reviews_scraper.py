@@ -20,11 +20,17 @@ from config_loader import load_config, get_competitor_names, get_data_dir, ensur
 
 
 class ReviewsScraper:
-    def __init__(self, config=None):
-        self.config = config or load_config()
+    def __init__(self, config_path=None):
+        # Handle both config path strings and config dicts
+        if isinstance(config_path, str):
+            self.config = load_config(config_path)
+        elif config_path is None:
+            self.config = load_config()
+        else:
+            self.config = config_path
         self.driver = None
         self.wait = None
-        self.output_dir = get_data_dir() / "reviews"
+        self.output_dir = get_data_dir(self.config) / "reviews"
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.all_reviews = []
 

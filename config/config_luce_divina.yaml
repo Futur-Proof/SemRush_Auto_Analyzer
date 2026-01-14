@@ -48,6 +48,20 @@ competitors:
     name: "Malin+Goetz"
     tier: "emerging"
 
+  # Shark Tank / High-AOV brands
+  - domain: "bigassluxuries.com"
+    name: "Big Ass Luxuries"
+    tier: "high_aov"
+    notes: "Shark Tank S16, $179-284 AOV, Dallas TX"
+  - domain: "forvrmood.com"
+    name: "FORVR Mood"
+    tier: "influencer"
+    notes: "Jackie Aina, $95 AOV, $6M revenue 2021"
+  - domain: "homesick.com"
+    name: "Homesick"
+    tier: "dtc_premium"
+    notes: "Acquired by WIN Brands 2018"
+
 # SEMrush settings
 semrush:
   database: "us"

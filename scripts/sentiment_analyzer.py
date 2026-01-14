@@ -53,13 +53,19 @@ COMPLAINT_CATEGORIES = {
 
 
 class SentimentAnalyzer:
-    def __init__(self, config=None):
-        self.config = config or load_config()
+    def __init__(self, config_path=None):
+        # Handle both config path strings and config dicts
+        if isinstance(config_path, str):
+            self.config = load_config(config_path)
+        elif config_path is None:
+            self.config = load_config()
+        else:
+            self.config = config_path
         self.reviews_df = None
         self.negative_reviews = None
         self.analysis = {}
-        self.data_dir = get_data_dir() / "reviews"
-        self.output_dir = get_output_dir() / "analysis"
+        self.data_dir = get_data_dir(self.config) / "reviews"
+        self.output_dir = get_output_dir(self.config) / "analysis"
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
         if NLTK_AVAILABLE:
