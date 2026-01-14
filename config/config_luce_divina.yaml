@@ -1,0 +1,150 @@
+# Luce Divina - Luxury Candle & Fragrance Brand
+# Competitor Analysis & Growth Projection Configuration
+
+target:
+  name: "Luce Divina"
+  domain: "lucedivina.com"
+  industry: "luxury_home_fragrance"
+  launch_status: "pre_launch"  # pre_launch, launched, established
+
+# Direct and aspirational competitors in luxury candle/fragrance space
+competitors:
+  # Premium luxury candle brands (aspirational)
+  - domain: "diptyqueparis.com"
+    name: "Diptyque"
+    tier: "luxury"
+  - domain: "byredo.com"
+    name: "Byredo"
+    tier: "luxury"
+  - domain: "lelabofragrances.com"
+    name: "Le Labo"
+    tier: "luxury"
+  - domain: "jomalonecom"
+    name: "Jo Malone"
+    tier: "luxury"
+
+  # Mid-tier luxury / DTC competitors (direct)
+  - domain: "boysmells.com"
+    name: "Boy Smells"
+    tier: "dtc_premium"
+  - domain: "brooklyncandlestudio.com"
+    name: "Brooklyn Candle Studio"
+    tier: "dtc_premium"
+  - domain: "apotheke.co"
+    name: "Apotheke"
+    tier: "dtc_premium"
+  - domain: "otherland.com"
+    name: "Otherland"
+    tier: "dtc_premium"
+  - domain: "vitruvi.com"
+    name: "Vitruvi"
+    tier: "dtc_premium"
+
+  # Emerging luxury DTC brands
+  - domain: "greylabel.com"
+    name: "Greylabel"
+    tier: "emerging"
+  - domain: "malinandgoetz.com"
+    name: "Malin+Goetz"
+    tier: "emerging"
+
+# SEMrush settings
+semrush:
+  database: "us"
+  search_type: "domain"
+  chrome_debug_port: 9222
+
+# Market keywords for keyword research and CPC analysis
+market_keywords:
+  # Brand/product type keywords
+  - "luxury candles"
+  - "luxury scented candles"
+  - "premium candles"
+  - "designer candles"
+  - "high end candles"
+  - "artisan candles"
+
+  # Gift-related (high intent)
+  - "luxury candle gift"
+  - "best luxury candles for gift"
+  - "candle gift set luxury"
+  - "premium candle gift"
+
+  # Scent-specific
+  - "soy wax luxury candles"
+  - "natural luxury candles"
+  - "hand poured luxury candles"
+
+  # Room/purpose
+  - "luxury home fragrance"
+  - "luxury room scent"
+  - "luxury bedroom candles"
+  - "luxury bathroom candles"
+
+  # Comparison/shopping
+  - "best luxury candle brands"
+  - "diptyque alternative"
+  - "candles like le labo"
+  - "byredo candle dupe"
+
+  # Price point keywords
+  - "luxury candles under 100"
+  - "premium candles online"
+  - "buy luxury candles"
+
+  # Long-tail
+  - "luxury candles for relaxation"
+  - "luxury aromatherapy candles"
+  - "luxury candles for home"
+  - "clean burning luxury candles"
+
+# Google Reviews configuration (for competitor sentiment analysis)
+google_reviews:
+  locations:
+    - "New York"
+    - "Los Angeles"
+    - "Miami"
+    - "Chicago"
+  store_types:
+    - "candle store"
+    - "home fragrance store"
+    - "luxury home goods"
+  max_scroll_count: 10
+
+# Sentiment analysis settings
+analysis:
+  sentiment_threshold: -0.1
+  min_rating_negative: 3
+  n_topics: 8
+  n_key_phrases: 15
+  complaint_categories:
+    - "scent_strength"
+    - "burn_quality"
+    - "longevity"
+    - "price_value"
+    - "packaging"
+    - "shipping"
+    - "customer_service"
+    - "authenticity"
+
+# Growth projection settings
+projections:
+  # ADJUST THESE VALUES based on Luce Divina's actual plans
+  monthly_ad_spend: 5000  # Starting monthly ad budget
+  aov: 65  # Average Order Value (adjust to actual)
+  months: 6
+
+  # Leave null to use benchmarks, or override with known values
+  cpc: null  # Will use SEMrush benchmark data
+  conversion_rate: 1.5  # Conservative for new luxury brand
+
+  # Growth targets
+  targets:
+    month_3_organic_pct: 10
+    month_6_organic_pct: 20
+    target_roas: 3.0
+
+# Output directories
+output:
+  base_dir: "output"
+  data_dir: "data"
