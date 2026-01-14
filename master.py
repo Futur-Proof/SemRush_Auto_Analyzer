@@ -195,7 +195,7 @@ def run_sentiment_analysis():
         return False
 
 
-def run_growth_projections(interactive=False):
+def run_growth_projections(interactive=False, spend=None, aov=None, cpc=None, cr=None, months=6):
     """Run growth projections"""
     print("\n" + "=" * 70)
     print("[PROJECTIONS] RUNNING GROWTH PROJECTIONS")
@@ -207,6 +207,18 @@ def run_growth_projections(interactive=False):
 
         if interactive:
             projector.run_interactive()
+            return True
+        elif spend and aov:
+            # Use CLI arguments
+            projections = projector.generate_projections(
+                monthly_ad_spend=spend,
+                aov=aov,
+                cpc=cpc,
+                conversion_rate=cr,
+                months=months
+            )
+            projector.print_projection_table(projections)
+            projector.save_projections(projections)
             return True
         else:
             result = projector.run_from_config()
@@ -372,13 +384,16 @@ Examples:
   # Run all pipelines:
   python master.py --all
 
+  # Growth projections with variables:
+  python master.py --projections --spend 5000 --aov 65 --cr 1.5 --months 6
+  python master.py --projections --spend 10000 --aov 85 --cpc 2.00 --cr 2.0
+
   # Individual modules:
   python master.py --semrush                SEMrush export only
   python master.py --traffic                Traffic analysis only
   python master.py --paid                   Paid media benchmarks
   python master.py --reviews                Scrape reviews only
   python master.py --sentiment              Sentiment analysis only
-  python master.py --projections            Growth projections from config
   python master.py --projections-interactive   Interactive projection mode
   python master.py --config                 Show current config
 
@@ -403,6 +418,14 @@ Setup:
     parser.add_argument('--projections', action='store_true', help='Run growth projections')
     parser.add_argument('--projections-interactive', action='store_true',
                         help='Run growth projections in interactive mode')
+
+    # Projection variables (override config values)
+    parser.add_argument('--spend', type=float, help='Monthly ad spend ($)')
+    parser.add_argument('--aov', type=float, help='Average order value ($)')
+    parser.add_argument('--cpc', type=float, help='Cost per click ($)')
+    parser.add_argument('--cr', type=float, help='Conversion rate (%%)')
+    parser.add_argument('--months', type=int, default=6, help='Months to project (default: 6)')
+
     parser.add_argument('--config', action='store_true', help='Show current config')
     parser.add_argument('--config-file', type=str, default='config/config.yaml',
                         help='Path to configuration file (default: config/config.yaml)')
@@ -439,7 +462,13 @@ Setup:
     elif args.sentiment:
         run_sentiment_analysis()
     elif args.projections:
-        run_growth_projections()
+        run_growth_projections(
+            spend=args.spend,
+            aov=args.aov,
+            cpc=args.cpc,
+            cr=args.cr,
+            months=args.months
+        )
     elif args.projections_interactive:
         run_growth_projections(interactive=True)
     elif args.all:
