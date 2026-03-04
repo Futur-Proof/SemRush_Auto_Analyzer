@@ -10,6 +10,10 @@ This script orchestrates all analysis pipelines:
 4. Google Reviews Scraping
 5. Sentiment Analysis
 6. Growth Projections (3/6 month forecasts)
+7. Keyword Intelligence (Volume, KD, CPC, Intent via Semrush API)
+8. Backlink Analysis (backlink profiles, referring domains, anchors)
+9. AI Visibility (AI Overview tracking, prompt testing, recommendations)
+10. Dashboard Export (push data to Google Ads Dashboard)
 
 Usage:
     python master.py --all                    # Run everything
@@ -20,8 +24,12 @@ Usage:
     python master.py --sentiment              # Sentiment analysis only
     python master.py --projections            # Growth projections
     python master.py --projections-interactive  # Interactive projections
+    python master.py --keywords               # Keyword intelligence (API-based)
+    python master.py --backlinks              # Backlink analysis
+    python master.py --ai-visibility          # AI visibility analysis
+    python master.py --dashboard              # Export to Google Ads Dashboard
     python master.py --config                 # Show current config
-    python master.py --config-file config/config_luce_divina.yaml  # Use specific config
+    python master.py --config-file config/config_embenauto.yaml  # Use specific config
     python master.py --help                   # Show help
 
 Before running:
@@ -230,6 +238,81 @@ def run_growth_projections(interactive=False, spend=None, aov=None, cpc=None, cr
         return False
 
 
+def run_keyword_intelligence():
+    """Run keyword intelligence analysis (API-based)"""
+    print("\n" + "=" * 70)
+    print("[KEYWORDS] RUNNING KEYWORD INTELLIGENCE")
+    print("=" * 70)
+
+    try:
+        from keyword_intelligence import run_keyword_intelligence as _run, save_results
+        config = load_config(CONFIG_PATH)
+        results = _run(config)
+        save_results(results, "data/semrush")
+        return True
+    except Exception as e:
+        print(f"[ERROR] Keyword intelligence failed: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def run_backlink_analysis():
+    """Run backlink analysis"""
+    print("\n" + "=" * 70)
+    print("[BACKLINKS] RUNNING BACKLINK ANALYSIS")
+    print("=" * 70)
+
+    try:
+        from backlink_analyzer import run_backlink_analysis as _run, save_results
+        config = load_config(CONFIG_PATH)
+        results = _run(config)
+        save_results(results, "data/semrush")
+        return True
+    except Exception as e:
+        print(f"[ERROR] Backlink analysis failed: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def run_ai_visibility():
+    """Run AI visibility analysis"""
+    print("\n" + "=" * 70)
+    print("[AI] RUNNING AI VISIBILITY ANALYSIS")
+    print("=" * 70)
+
+    try:
+        from ai_visibility import run_ai_visibility_analysis as _run, save_results
+        config = load_config(CONFIG_PATH)
+        results = _run(config)
+        save_results(results, "data/semrush")
+        return True
+    except Exception as e:
+        print(f"[ERROR] AI visibility analysis failed: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def run_dashboard_export():
+    """Export data to Google Ads Dashboard"""
+    print("\n" + "=" * 70)
+    print("[DASHBOARD] EXPORTING TO DASHBOARD")
+    print("=" * 70)
+
+    try:
+        from dashboard_exporter import export_to_dashboard
+        config = load_config(CONFIG_PATH)
+        files = export_to_dashboard(config, "data/semrush")
+        return files is not None and len(files) > 0
+    except Exception as e:
+        print(f"[ERROR] Dashboard export failed: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
 def run_all():
     """Run all pipelines"""
     results = {}
@@ -237,11 +320,15 @@ def run_all():
     print("\n[START] Running all analysis pipelines...\n")
 
     results['semrush'] = run_semrush_export()
+    results['keywords'] = run_keyword_intelligence()
+    results['backlinks'] = run_backlink_analysis()
     results['traffic'] = run_traffic_analysis()
     results['paid_media'] = run_paid_media_benchmarks()
     results['reviews'] = run_reviews_scraper()
     results['sentiment'] = run_sentiment_analysis()
+    results['ai_visibility'] = run_ai_visibility()
     results['projections'] = run_growth_projections()
+    results['dashboard'] = run_dashboard_export()
 
     # Summary
     print("\n" + "=" * 70)
@@ -320,24 +407,37 @@ def run_established_business_analysis():
     print("Focus: Own traffic analysis, competitor gaps, optimization opportunities\n")
 
     # Step 1: Full SEMrush export (own domain + competitors)
-    print("\n[Step 1/5] Exporting SEMrush data (organic keywords, backlinks)...")
+    print("\n[Step 1/8] Exporting SEMrush data (organic keywords, backlinks)...")
     results['semrush'] = run_semrush_export()
 
-    # Step 2: Deep traffic analysis (includes own domain)
-    print("\n[Step 2/5] Deep traffic analysis...")
+    # Step 2: Keyword intelligence (API-based Volume/KD/CPC/Intent)
+    print("\n[Step 2/8] Running keyword intelligence...")
+    results['keywords'] = run_keyword_intelligence()
+
+    # Step 3: Backlink analysis
+    print("\n[Step 3/8] Analyzing backlink profiles...")
+    results['backlinks'] = run_backlink_analysis()
+
+    # Step 4: Deep traffic analysis (includes own domain)
+    print("\n[Step 4/8] Deep traffic analysis...")
     results['traffic'] = run_traffic_analysis()
 
-    # Step 3: Paid media comparison
-    print("\n[Step 3/5] Analyzing paid media landscape...")
+    # Step 5: Paid media comparison
+    print("\n[Step 5/8] Analyzing paid media landscape...")
     results['paid_media'] = run_paid_media_benchmarks()
 
-    # Step 4: Competitor reviews for market positioning
-    print("\n[Step 4/5] Scraping competitor reviews...")
+    # Step 6: Competitor reviews for market positioning
+    print("\n[Step 6/8] Scraping competitor reviews...")
     results['reviews'] = run_reviews_scraper()
 
-    # Step 5: Sentiment analysis
-    print("\n[Step 5/5] Running sentiment analysis...")
+    # Step 7: Sentiment + AI visibility
+    print("\n[Step 7/8] Running sentiment & AI visibility analysis...")
     results['sentiment'] = run_sentiment_analysis()
+    results['ai_visibility'] = run_ai_visibility()
+
+    # Step 8: Dashboard export
+    print("\n[Step 8/8] Exporting to dashboard...")
+    results['dashboard'] = run_dashboard_export()
 
     # Summary
     print("\n" + "=" * 70)
@@ -395,6 +495,10 @@ Examples:
   python master.py --reviews                Scrape reviews only
   python master.py --sentiment              Sentiment analysis only
   python master.py --projections-interactive   Interactive projection mode
+  python master.py --keywords               Keyword intelligence (Volume, KD, CPC, Intent)
+  python master.py --backlinks              Backlink profile analysis
+  python master.py --ai-visibility          AI visibility & AI Overview analysis
+  python master.py --dashboard              Export to Google Ads Dashboard
   python master.py --config                 Show current config
 
 Setup:
@@ -418,6 +522,12 @@ Setup:
     parser.add_argument('--projections', action='store_true', help='Run growth projections')
     parser.add_argument('--projections-interactive', action='store_true',
                         help='Run growth projections in interactive mode')
+    parser.add_argument('--keywords', action='store_true',
+                        help='Run keyword intelligence (API-based Volume/KD/CPC/Intent)')
+    parser.add_argument('--backlinks', action='store_true', help='Run backlink analysis')
+    parser.add_argument('--ai-visibility', action='store_true', help='Run AI visibility analysis')
+    parser.add_argument('--dashboard', action='store_true',
+                        help='Export all data to Google Ads Dashboard format')
 
     # Projection variables (override config values)
     parser.add_argument('--spend', type=float, help='Monthly ad spend ($)')
@@ -471,6 +581,14 @@ Setup:
         )
     elif args.projections_interactive:
         run_growth_projections(interactive=True)
+    elif args.keywords:
+        run_keyword_intelligence()
+    elif args.backlinks:
+        run_backlink_analysis()
+    elif args.ai_visibility:
+        run_ai_visibility()
+    elif args.dashboard:
+        run_dashboard_export()
     elif args.all:
         run_all()
     else:
@@ -479,6 +597,8 @@ Setup:
         print("\n[TIP] Quick start: python master.py --config")
         print("[TIP] For NEW business: python master.py --business-age new --config-file config/config_luce_divina.yaml")
         print("[TIP] For ESTABLISHED business: python master.py --business-age established")
+        print("[TIP] For auto transport: python master.py --business-age established --config-file config/config_embenauto.yaml")
+        print("[TIP] Keywords only: python master.py --keywords --config-file config/config_embenauto.yaml")
 
 
 if __name__ == "__main__":

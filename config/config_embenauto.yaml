@@ -1,0 +1,162 @@
+# ── Snowbird Ship Co / Emben Auto Transport ──
+# Google Ads dashboard integration config
+# Usage: python master.py --config-file config/config_embenauto.yaml --business-age established
+
+target:
+  name: "Snowbird Ship Co"
+  domain: "snowbirdshipco.com"
+  industry: "auto_transport"
+  launch_status: "established"
+  dashboard_client_id: "embenauto"   # maps to data/embenauto/ in Google Ads dashboard
+
+competitors:
+  - domain: "montway.com"
+    name: "Montway Auto Transport"
+    priority: "primary"
+  - domain: "sherpa.com"
+    name: "Sherpa Auto Transport"
+    priority: "primary"
+  - domain: "americanautoshipping.com"
+    name: "American Auto Shipping"
+    priority: "primary"
+  - domain: "a1autotransport.com"
+    name: "A-1 Auto Transport"
+    priority: "primary"
+  - domain: "shipcar.com"
+    name: "Ship A Car"
+    priority: "primary"
+  - domain: "roadrunnerautotransport.com"
+    name: "Roadrunner Auto Transport"
+    priority: "secondary"
+  - domain: "sgtautotransport.com"
+    name: "SGT Auto Transport"
+    priority: "secondary"
+  - domain: "shiplux.com"
+    name: "ShipLux"
+    priority: "secondary"
+  - domain: "autoshippinggroup.com"
+    name: "Auto Shipping Group"
+    priority: "secondary"
+  - domain: "naviautotransport.com"
+    name: "Navi Auto Transport"
+    priority: "secondary"
+
+semrush:
+  api_key: "89be8b05071ffbec69e45688aea6e87a"
+  database: "us"
+
+market_keywords:
+  # ── Core transactional ──
+  - "auto transport"
+  - "car shipping"
+  - "car transport"
+  - "vehicle transport"
+  - "ship a car"
+  - "vehicle shipping"
+  - "auto shipping"
+  - "car hauler"
+  - "ship car"
+
+  # ── Quote / booking intent ──
+  - "auto transport quote"
+  - "car shipping quote"
+  - "car shipping cost"
+  - "car shipping rates"
+  - "how much to ship a car"
+
+  # ── Geographic — Florida ──
+  - "car shipping to florida"
+  - "florida car transport"
+  - "ship car from new york to florida"
+  - "snowbird car shipping"
+  - "snowbird auto transport"
+
+  # ── Geographic — California ──
+  - "car shipping to california"
+  - "california car transport"
+  - "los angeles auto transport"
+
+  # ── Geographic — Texas ──
+  - "car shipping to texas"
+  - "texas car transport"
+  - "houston auto transport"
+
+  # ── Geographic — Arizona ──
+  - "car shipping to arizona"
+  - "arizona car transport"
+  - "phoenix auto transport"
+
+  # ── Cross-country ──
+  - "cross country car shipping"
+  - "coast to coast car shipping"
+  - "long distance car transport"
+  - "interstate car shipping"
+  - "ship my car to another state"
+
+  # ── Transport types ──
+  - "enclosed auto transport"
+  - "enclosed car shipping"
+  - "open auto transport"
+  - "door to door car shipping"
+  - "expedited car shipping"
+
+  # ── Specialty vehicles ──
+  - "motorcycle shipping"
+  - "luxury car transport"
+  - "exotic car shipping"
+  - "classic car transport"
+  - "rv transport services"
+
+  # ── Military / niche ──
+  - "military car shipping"
+  - "pcs vehicle shipping"
+  - "dealer auto transport"
+  - "auction car shipping"
+
+  # ── Commercial / comparison ──
+  - "best auto transport companies"
+  - "top rated car shipping companies"
+  - "reliable auto transport"
+  - "cheap car shipping"
+  - "affordable auto transport"
+  - "montway reviews"
+  - "auto transport reviews"
+
+  # ── Canada routes ──
+  - "car shipping canada"
+  - "ship car from canada to usa"
+  - "cross border car shipping"
+  - "vehicle shipping canada to usa"
+
+  # ── Informational ──
+  - "how does car shipping work"
+  - "car shipping insurance"
+  - "open vs enclosed car transport"
+  - "car transport scams to avoid"
+  - "auto transport broker vs carrier"
+
+projections:
+  monthly_ad_spend: 5000
+  aov: 1100
+  conversion_rate: 4.5
+  months: 6
+  targets:
+    month_3_organic_pct: 15
+    month_6_organic_pct: 25
+    target_roas: 3.0
+
+reviews:
+  search_queries:
+    - "snowbird ship co auto transport"
+    - "emben auto transport reviews"
+  scroll_count: 10
+
+dashboard:
+  # Path to Google Ads dashboard repo (for auto-export)
+  output_path: ""  # Set to absolute path, e.g. /Users/alpharank/Google-Ads-Automation
+  export_formats:
+    - keyword_market_data    # data/{client}/semrush/keyword_market_data.json
+    - traffic_data           # data/{client}/semrush/traffic_data.json
+    - backlink_data          # data/{client}/semrush/backlink_data.json
+    - ai_visibility_data     # data/{client}/semrush/ai_visibility_data.json
+    - competitor_benchmarks  # data/{client}/semrush/competitor_benchmarks.json
