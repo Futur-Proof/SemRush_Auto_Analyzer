@@ -10,9 +10,9 @@ This script orchestrates all analysis pipelines:
 4. Google Reviews Scraping
 5. Sentiment Analysis
 6. Growth Projections (3/6 month forecasts)
-7. Keyword Intelligence (Volume, KD, CPC, Intent via Semrush API)
-8. Backlink Analysis (backlink profiles, referring domains, anchors)
-9. AI Visibility (AI Overview tracking, prompt testing, recommendations)
+7. Keyword Intelligence (Volume, KD, CPC, Intent via Selenium scraping)
+8. Backlink Analysis (backlink profiles, referring domains, anchors via Selenium)
+9. AI Visibility (AI Overview tracking, prompt testing, recommendations via Selenium)
 10. Dashboard Export (push data to Google Ads Dashboard)
 
 Usage:
@@ -24,7 +24,7 @@ Usage:
     python master.py --sentiment              # Sentiment analysis only
     python master.py --projections            # Growth projections
     python master.py --projections-interactive  # Interactive projections
-    python master.py --keywords               # Keyword intelligence (API-based)
+    python master.py --keywords               # Keyword intelligence (Selenium)
     python master.py --backlinks              # Backlink analysis
     python master.py --ai-visibility          # AI visibility analysis
     python master.py --dashboard              # Export to Google Ads Dashboard
@@ -239,17 +239,15 @@ def run_growth_projections(interactive=False, spend=None, aov=None, cpc=None, cr
 
 
 def run_keyword_intelligence():
-    """Run keyword intelligence analysis (API-based)"""
+    """Run keyword intelligence scraper (Selenium-based)"""
     print("\n" + "=" * 70)
     print("[KEYWORDS] RUNNING KEYWORD INTELLIGENCE")
     print("=" * 70)
 
     try:
-        from keyword_intelligence import run_keyword_intelligence as _run, save_results
+        from keyword_intelligence import run_keyword_intelligence as _run
         config = load_config(CONFIG_PATH)
-        results = _run(config)
-        save_results(results, "data/semrush")
-        return True
+        return _run(config)
     except Exception as e:
         print(f"[ERROR] Keyword intelligence failed: {e}")
         import traceback
@@ -258,17 +256,15 @@ def run_keyword_intelligence():
 
 
 def run_backlink_analysis():
-    """Run backlink analysis"""
+    """Run backlink analysis scraper (Selenium-based)"""
     print("\n" + "=" * 70)
     print("[BACKLINKS] RUNNING BACKLINK ANALYSIS")
     print("=" * 70)
 
     try:
-        from backlink_analyzer import run_backlink_analysis as _run, save_results
+        from backlink_analyzer import run_backlink_analysis as _run
         config = load_config(CONFIG_PATH)
-        results = _run(config)
-        save_results(results, "data/semrush")
-        return True
+        return _run(config)
     except Exception as e:
         print(f"[ERROR] Backlink analysis failed: {e}")
         import traceback
@@ -277,17 +273,15 @@ def run_backlink_analysis():
 
 
 def run_ai_visibility():
-    """Run AI visibility analysis"""
+    """Run AI visibility analysis (Selenium + config-based)"""
     print("\n" + "=" * 70)
     print("[AI] RUNNING AI VISIBILITY ANALYSIS")
     print("=" * 70)
 
     try:
-        from ai_visibility import run_ai_visibility_analysis as _run, save_results
+        from ai_visibility import run_ai_visibility_analysis as _run
         config = load_config(CONFIG_PATH)
-        results = _run(config)
-        save_results(results, "data/semrush")
-        return True
+        return _run(config)
     except Exception as e:
         print(f"[ERROR] AI visibility analysis failed: {e}")
         import traceback
@@ -495,7 +489,7 @@ Examples:
   python master.py --reviews                Scrape reviews only
   python master.py --sentiment              Sentiment analysis only
   python master.py --projections-interactive   Interactive projection mode
-  python master.py --keywords               Keyword intelligence (Volume, KD, CPC, Intent)
+  python master.py --keywords               Keyword intelligence (Selenium scraper)
   python master.py --backlinks              Backlink profile analysis
   python master.py --ai-visibility          AI visibility & AI Overview analysis
   python master.py --dashboard              Export to Google Ads Dashboard
@@ -523,7 +517,7 @@ Setup:
     parser.add_argument('--projections-interactive', action='store_true',
                         help='Run growth projections in interactive mode')
     parser.add_argument('--keywords', action='store_true',
-                        help='Run keyword intelligence (API-based Volume/KD/CPC/Intent)')
+                        help='Run keyword intelligence (Selenium scraper)')
     parser.add_argument('--backlinks', action='store_true', help='Run backlink analysis')
     parser.add_argument('--ai-visibility', action='store_true', help='Run AI visibility analysis')
     parser.add_argument('--dashboard', action='store_true',

@@ -42,8 +42,8 @@ competitors:
     priority: "secondary"
 
 semrush:
-  api_key: "89be8b05071ffbec69e45688aea6e87a"
   database: "us"
+  chrome_debug_port: 9222
 
 market_keywords:
   # ── Core transactional ──

@@ -4,9 +4,9 @@ Automated SEMrush data extraction, competitor analysis, and Google Ads dashboard
 
 ## Features
 
-- **Keyword Intelligence**: Volume, KD, CPC, Intent for 200+ keywords via Semrush API
-- **Backlink Analysis**: Authority scores, referring domains, anchor text, top pages
-- **AI Visibility**: AI Overview keyword triggers, test prompts, visibility recommendations
+- **Keyword Intelligence**: Volume, KD, CPC, Intent for 200+ keywords (Selenium scraper)
+- **Backlink Analysis**: Authority scores, referring domains, anchor text, top pages (Selenium scraper)
+- **AI Visibility**: AI Overview keyword triggers, test prompts, visibility recommendations (Selenium + config)
 - **SEMrush Data Export**: Organic keywords, backlinks, top pages, competitor analysis (Selenium)
 - **Traffic Analytics**: Traffic sources, user journeys, historical trends (Selenium)
 - **Paid Media Benchmarks**: CPC extraction, competitor ad spend modeling
@@ -46,16 +46,16 @@ python master.py --config-file config/config_carattrade.yaml --business-age esta
 ### 3. Run Analysis
 
 ```bash
-# ── API-based analysis (no Chrome needed) ──
+# ── Selenium-based analysis (requires Chrome + Semrush login) ──
 python master.py --keywords --config-file config/config_embenauto.yaml      # Keyword Volume/KD/CPC/Intent
 python master.py --backlinks --config-file config/config_embenauto.yaml     # Backlink profiles
 python master.py --ai-visibility --config-file config/config_embenauto.yaml # AI visibility analysis
-python master.py --dashboard --config-file config/config_embenauto.yaml     # Export to dashboard
-
-# ── Selenium-based analysis (requires Chrome + Semrush login) ──
 python master.py --semrush --config-file config/config_embenauto.yaml       # Full Semrush UI export
 python master.py --traffic --config-file config/config_embenauto.yaml       # Traffic deep dive
 python master.py --paid --config-file config/config_embenauto.yaml          # Paid media benchmarks
+
+# ── No Chrome needed ──
+python master.py --dashboard --config-file config/config_embenauto.yaml     # Export to dashboard
 
 # ── Other modules ──
 python master.py --reviews --config-file config/config_embenauto.yaml       # Google reviews
@@ -83,9 +83,9 @@ python master.py --projections --spend 5000 --aov 1100 --cr 4.5 --months 6
 
 | Module | Method | Chrome? | Output |
 |--------|--------|---------|--------|
-| `--keywords` | Semrush API | No | `data/semrush/keyword_market_data.json` |
-| `--backlinks` | Semrush API | No | `data/semrush/backlink_data.json` |
-| `--ai-visibility` | Config analysis | No | `data/semrush/ai_visibility_data.json` |
+| `--keywords` | Selenium scraper | Yes | `data/semrush/keyword_market_data.json` |
+| `--backlinks` | Selenium scraper | Yes | `data/semrush/backlink_data.json` |
+| `--ai-visibility` | Selenium + config | Yes* | `data/semrush/ai_visibility_data.json` |
 | `--dashboard` | File export | No | `output/dashboard/{client}/semrush/` |
 | `--semrush` | Selenium | Yes | `output/screenshots/semrush/` |
 | `--traffic` | Selenium | Yes | `output/screenshots/traffic/` |
@@ -106,9 +106,9 @@ SemRush_Auto_Analyzer/
 │   └── config_carattrade.yaml  # Jewelry
 ├── scripts/
 │   ├── config_loader.py        # Config utilities
-│   ├── keyword_intelligence.py # Volume/KD/CPC/Intent via API
-│   ├── backlink_analyzer.py    # Backlink profiles via API
-│   ├── ai_visibility.py        # AI Overview analysis
+│   ├── keyword_intelligence.py # Volume/KD/CPC/Intent (Selenium scraper)
+│   ├── backlink_analyzer.py    # Backlink profiles (Selenium scraper)
+│   ├── ai_visibility.py        # AI Overview analysis (Selenium + config)
 │   ├── dashboard_exporter.py   # Export to Google Ads Dashboard
 │   ├── semrush_exporter.py     # Selenium UI export
 │   ├── traffic_analyzer.py     # Selenium traffic analysis
@@ -183,8 +183,8 @@ competitors:
     priority: "primary"  # primary or secondary
 
 semrush:
-  api_key: "your-semrush-api-key"
   database: "us"
+  chrome_debug_port: 9222  # port for Chrome remote debugging
 
 market_keywords:
   - "your main keyword"
@@ -215,12 +215,7 @@ dashboard:
 
 ## Troubleshooting
 
-### Semrush API returns 403
-- API key may have expired or hit rate limits
-- Check your Semrush subscription plan (API access requires Guru+ plan)
-- Verify the API key in your config YAML
-
-### Chrome connection fails (Selenium modules)
+### Chrome connection fails
 - Make sure Chrome is running with `--remote-debugging-port=9222`
 - Check no other Chrome instances are using that port
 
